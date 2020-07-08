@@ -1,0 +1,72 @@
+image 1/1 inference/images/bank3.jpg: 
+inference/output/bank3_person1.jpg done attribution recognition
+lowerBodyCasual: 1.78
+upperBodyCasual: 3.65
+accessoryNothing: 5.29
+carryingNothing: 4.66
+lowerBodyTrousers: 6.71
+------------------------------
+inference/output/bank3_person2.jpg done attribution recognition
+carryingOther: 0.74
+lowerBodyCasual: 4.35
+upperBodyCasual: 2.99
+carryingMessengerBag: 0.88
+accessoryNothing: 6.17
+footwearShoes: 4.81
+lowerBodyTrousers: 4.69
+------------------------------
+inference/output/bank3_person3.jpg done attribution recognition
+personalLess30: 1.70
+lowerBodyCasual: 3.92
+upperBodyCasual: 3.01
+hairLong: 1.21
+accessoryNothing: 2.64
+footwearShoes: 1.59
+upperBodyShortSleeve: 2.46
+lowerBodyTrousers: 3.39
+------------------------------
+inference/output/bank3_person4.jpg done attribution recognition
+personalLess30: 1.88
+lowerBodyCasual: 4.56
+upperBodyCasual: 1.84
+hairLong: 5.89
+accessoryNothing: 3.66
+carryingNothing: 2.55
+footwearShoes: 1.72
+lowerBodyTrousers: 7.64
+------------------------------
+inference/output/bank3_person5.jpg done attribution recognition
+personalLess30: 1.53
+lowerBodyCasual: 3.75
+upperBodyCasual: 2.54
+footwearLeatherShoes: 0.70
+hairLong: 2.58
+accessoryNothing: 2.24
+carryingNothing: 4.55
+lowerBodyTrousers: 9.74
+------------------------------
+inference/output/bank3_person6.jpg done attribution recognition
+lowerBodyCasual: 6.03
+upperBodyCasual: 2.45
+accessoryNothing: 1.93
+footwearShoes: 3.80
+lowerBodyTrousers: 11.47
+------------------------------
+inference/output/bank3_person7.jpg done attribution recognition
+personalLess30: 1.23
+lowerBodyCasual: 9.51
+upperBodyCasual: 3.84
+hairLong: 6.82
+accessoryNothing: 3.96
+carryingPlasticBags: 1.23
+lowerBodyTrousers: 2.91
+------------------------------
+inference/output/bank3_person8.jpg done attribution recognition
+personalLess30: 3.77
+lowerBodyCasual: 0.25
+hairLong: 4.66
+accessoryNothing: 5.28
+carryingNothing: 1.16
+footwearShoes: 1.89
+lowerBodyTrousers: 5.74
+------------------------------
