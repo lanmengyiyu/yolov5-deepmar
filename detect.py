@@ -220,7 +220,7 @@ if __name__ == '__main__':
         att_list = pickle.load(file_handle)
 #     model_deepmar = torch.load('./deepmar/deepmar.pth')
     model_deepmar = DeepMAR_ResNet50()
-    model_deepmar.load_state_dict(torch.load('deepmar/deepmar_statedict.pth'))
+    model_deepmar.load_state_dict(torch.load('/content/drive/My Drive/deepmar weight/deepmar_statedict.pth'))
     model_deepmar.eval()
     model_deepmar.cuda()
 
