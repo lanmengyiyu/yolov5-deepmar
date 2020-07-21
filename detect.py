@@ -56,7 +56,7 @@ def detect(save_img=False):
 
     # Get names and colors
     names = model.module.names if hasattr(model, 'module') else model.names
-    colors = [[random.randint(0, 255) for _ in range(3)] for _ in range(len(names))]
+    colors = [[random.randint(0, 255) for _ in range(3)] for _ in range(32)]
 
     # Run inference
     t0 = time.time()
@@ -119,7 +119,7 @@ def detect(save_img=False):
                         label = '%d' % (pid)
                         if label not in trajectory:
                             trajectory[label] = []
-                        plot_one_box(xyxy, im0, label=label, color=colors[0], line_thickness=2)
+                        plot_one_box(xyxy, im0, label=label, color=colors[int(label)%32], line_thickness=2)
                         height, width, _ = im0.shape
                         x1, y1, x2, y2 = max(0,int(xyxy[0])), max(0,int(xyxy[1])), min(width,int(xyxy[2])), min(height,int(xyxy[3]))
                         center = (int((x1 + x2)/2), int((y1 + y2)/2))
@@ -127,7 +127,7 @@ def detect(save_img=False):
                         for i in range(1,len(trajectory[label])):
                             if trajectory[label][i-1]is None or trajectory[label][i]is None:
                                 continue
-                            cv2.line(im0, trajectory[label][i - 1], trajectory[label][i], colors[0], 2)
+                            cv2.line(im0, trajectory[label][i - 1], trajectory[label][i], colors[int(label)%32], 2)
                         bbox_img = im0[y1:y2,x1:x2]
                             # print(type(bbox_img))
                         shortname, extension = os.path.splitext(Path(p).name)
