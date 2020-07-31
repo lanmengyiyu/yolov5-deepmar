@@ -28,7 +28,7 @@ def detect(save_img=False):
     os.makedirs(out)  # make new output folder
     half = device.type != 'cpu'  # half precision only supported on CUDA
     print(os.path.isfile(weights))
-    if opt.config_deepsort:
+    if opt.deepsort:
         mot_tracker = build_tracker(cfg, use_cuda=True)
     else:
         mot_tracker = Sort()
@@ -105,9 +105,9 @@ def detect(save_img=False):
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += '%g %ss, ' % (n, names[int(c)])  # add to string
                 
-                if opt.config_deepsort:
+                if opt.deepsort:
                     track_det = [elem[:4].tolist() for elem in det if elem[5] == 0]
-                    track_det_xywh = xyxy2xywh(track_det)
+                    track_det_xywh = xyxy2xywh(np.array(track_det))
                     cls_conf = [elem[4].tolist() for elem in det if elem[5] == 0]
                     track_bbs_ids = mot_tracker.update(track_det_xywh, cls_conf, im0)
                 else:
@@ -232,13 +232,13 @@ if __name__ == '__main__':
     parser.add_argument('--classes', nargs='+', type=int, help='filter by class')
     parser.add_argument('--agnostic-nms', action='store_true', help='class-agnostic NMS')
     parser.add_argument('--augment', action='store_true', help='augmented inference')
-    parser.add_argument("--config_deepsort", type=str, default="")
+    parser.add_argument("--deepsort", type=str, default="")
     opt = parser.parse_args()
     opt.img_size = check_img_size(opt.img_size)
     print(opt)
-    if opt.config_deepsort:
+    if opt.deepsort:
         cfg = get_config()
-        cfg.merge_from_file(opt.config_deepsort)
+        cfg.merge_from_file(opt.deepsort)
     resize = 224
     mean = [0.485, 0.456, 0.406]
     std = [0.229, 0.224, 0.225]
