@@ -7,6 +7,8 @@ import torch.backends.cudnn as cudnn
 from utils import google_utils
 from utils.datasets import *
 from utils.utils import *
+from utils.parser import get_config
+from deep_sort import build_tracker
 import torch
 import torchvision.transforms as transforms
 from torch.autograd import Variable
@@ -26,7 +28,10 @@ def detect(save_img=False):
     os.makedirs(out)  # make new output folder
     half = device.type != 'cpu'  # half precision only supported on CUDA
     print(os.path.isfile(weights))
-    mot_tracker = Sort()
+    if opt.config_deepsort:
+        mot_tracker = build_tracker(cfg, use_cuda=True)
+    else:
+        mot_tracker = Sort()
     trajectory = {}
     # Load model
  #   google_utils.attempt_download(weights)
@@ -100,10 +105,15 @@ def detect(save_img=False):
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += '%g %ss, ' % (n, names[int(c)])  # add to string
                 
-
-                track_det = [elem[:5].tolist() for elem in det if elem[5] == 0]
-                track_det = np.array(track_det)
-                track_bbs_ids = mot_tracker.update(track_det)
+                if opt.config_deepsort:
+                    track_det = [elem[:4].tolist() for elem in det if elem[5] == 0]
+                    track_det_xywh = xyxy2xywh(track_det)
+                    cls_conf = [elem[4].tolist() for elem in det if elem[5] == 0]
+                    track_bbs_ids = mot_tracker.update(track_det_xywh, cls_conf, im0)
+                else:
+                    track_det = [elem[:5].tolist() for elem in det if elem[5] == 0]
+                    track_det = np.array(track_det)
+                    track_bbs_ids = mot_tracker.update(track_det)
       
                 person_count = 0
                 # Write results
@@ -222,9 +232,13 @@ if __name__ == '__main__':
     parser.add_argument('--classes', nargs='+', type=int, help='filter by class')
     parser.add_argument('--agnostic-nms', action='store_true', help='class-agnostic NMS')
     parser.add_argument('--augment', action='store_true', help='augmented inference')
+    parser.add_argument("--config_deepsort", type=str, default="")
     opt = parser.parse_args()
     opt.img_size = check_img_size(opt.img_size)
     print(opt)
+    if opt.config_deepsort:
+        cfg = get_config()
+        cfg.merge_from_file(opt.config_deepsort)
     resize = 224
     mean = [0.485, 0.456, 0.406]
     std = [0.229, 0.224, 0.225]
