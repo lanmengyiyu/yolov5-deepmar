@@ -13,8 +13,11 @@ import torch
 import torchvision.transforms as transforms
 from torch.autograd import Variable
 import pickle
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from deepmar.baseline.model.DeepMAR import DeepMAR_ResNet50
+from matplotlib.pyplot import imshow
+from utils.google_utils import gdrive_download  # to download models/datasets
+
 
 def detect(save_img=False):
     out, source, weights, view_img, save_txt, imgsz = \
@@ -33,6 +36,7 @@ def detect(save_img=False):
     else:
         mot_tracker = Sort()
     trajectory = {}
+    font = ImageFont.truetype("./simsun.ttc", 40, encoding="utf-8")  # path，size
     # Load model
  #   google_utils.attempt_download(weights)
     model = torch.load(weights, map_location=device)['model'].float()  # load to FP32
@@ -156,6 +160,12 @@ def detect(save_img=False):
                             # score = model_deepmar(img_var).data.cpu().numpy()
                             # print(score)
 
+                        cv2img = cv2.cvtColor(im0, cv2.COLOR_BGR2RGB)  
+                        pilimg = Image.fromarray(cv2img)
+
+                        # print word on PIL img
+                        draw = ImageDraw.Draw(pilimg)  
+
                         bbox_img_convt_PIL = Image.fromarray(cv2.cvtColor(bbox_img,cv2.COLOR_BGR2RGB))
                         img_trans_conv_PIL = input_transform(bbox_img_convt_PIL)
                         img_trans_conv_PIL = torch.unsqueeze(img_trans_conv_PIL, dim=0)
@@ -171,8 +181,10 @@ def detect(save_img=False):
                                     # print(txt)
                                 att_count += 1
                                     # print(att_count)
-                                cv2.putText(im0, att_list[idx], (x1, y1 + 5 + 10*att_count ), cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, [225, 255, 255],
-                                                thickness=1, lineType=cv2.LINE_AA)
+                                draw.text((x1, y1 + 10 + 40 * att_count), att_list[idx][1], (205, 55, 0),
+                                          font=font)  # coordinate，text，color，typeface
+                                # PIL图片转cv2 图片
+                                im0 = cv2.cvtColor(np.array(pilimg), cv2.COLOR_RGB2BGR)
                                     # cv2.imshow('deepmar',im0)
                                     # cv2.waitKey()
                                     # cv2.destroyAllWindows()
@@ -233,6 +245,8 @@ if __name__ == '__main__':
     parser.add_argument('--agnostic-nms', action='store_true', help='class-agnostic NMS')
     parser.add_argument('--augment', action='store_true', help='augmented inference')
     parser.add_argument("--deepsort", type=str, default="")
+    parser.add_argument('--attributes', type=str, default='deepmar/attribute_list_Chinese.pkl',
+                        help='Chinese attribute list path')
     opt = parser.parse_args()
     opt.img_size = check_img_size(opt.img_size)
     print(opt)
@@ -247,7 +261,7 @@ if __name__ == '__main__':
         transforms.ToTensor(),
         transforms.Normalize(mean=mean, std=std),
     ])
-    with open('./deepmar/attribute_list.pickle', 'rb') as file_handle:
+    with open(opt.attributes, 'rb') as file_handle:
         att_list = pickle.load(file_handle)
 #     model_deepmar = torch.load('./deepmar/deepmar.pth')
     model_deepmar = DeepMAR_ResNet50()
@@ -262,5 +276,3 @@ if __name__ == '__main__':
         # for opt.weights in ['yolov5s.pt', 'yolov5m.pt', 'yolov5l.pt', 'yolov5x.pt', 'yolov3-spp.pt']:
         #    detect()
         #    create_pretrained(opt.weights, opt.weights)
-
-
