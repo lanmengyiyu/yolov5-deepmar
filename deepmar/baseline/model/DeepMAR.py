@@ -39,7 +39,7 @@ class DeepMAR_ResNet50(nn.Module):
         if 'pretrained' in kwargs:
             self.pretrained = kwargs['pretrained'] 
         else:
-            self.pretrained = True
+            self.pretrained = False
 
         self.base = resnet50(pretrained=self.pretrained, last_conv_stride=self.last_conv_stride)
         
