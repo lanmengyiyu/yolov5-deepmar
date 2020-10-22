@@ -28,4 +28,4 @@ python detect.py --weights "/content/drive/My Drive/yolo weight/yolov5x.pt"
 
 ## Contact
 
-**Issues should be raised directly in the repository.** email Glenn Jocher at 545277714@qq.com. 
+**Issues should be raised directly in the repository.** email Zhang Jie at 545277714@qq.com. 
