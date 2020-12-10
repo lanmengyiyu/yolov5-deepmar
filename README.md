@@ -7,7 +7,11 @@ Python 3.7 or later with all `requirements.txt` dependencies installed, includin
 $ pip install -U -r requirements.txt
 ```
 
-
+## weights
+Google drive link:
+https://drive.google.com/drive/folders/11qr6Y2c62NzM3BN_011oXLHietiw5tbi?usp=sharing
+https://drive.google.com/drive/folders/1r08uwmB3QeOnwkhOupZ0UCC1TIaGybOK?usp=sharing
+https://drive.google.com/drive/folders/1KRoWa-VJwgOxWXgywuzwFaq95wDd0QnJ?usp=sharing
 ## Tutorials
 
 * [yolov5-deepmar-Notebook](https://github.com/lanmengyiyu/yolov5-deepmar/blob/master/yolov5-deepmar.ipynb) <a href="https://colab.research.google.com/github/lanmengyiyu/yolov5-deepmar/blob/master/yolov5-deepmar.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
