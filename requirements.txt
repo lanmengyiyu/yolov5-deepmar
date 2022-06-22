@@ -4,7 +4,7 @@ numba==0.49.0
 scikit-image==0.14.0
 lap==0.4.0
 Cython
-numpy==1.17
+numpy==1.22.0
 opencv-python
 torch>=1.4
 matplotlib
